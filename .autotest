@@ -1,0 +1,26 @@
+Autotest.add_hook :initialize do |at|
+  at.add_exception ".git"
+  at.add_exception "test/fixtures"
+  at.add_exception "test/helper.rb"
+  at.add_exception "bin/lather"
+  at.add_exception ".autotest"
+  at.add_exception "Rakefile"
+  at.add_exception "README.rdoc"
+  at.add_exception "MANIFEST"
+  at.add_exception "tasks"
+
+  at.clear_mappings
+ 
+  at.add_mapping(/^lib\/lather\.rb$/) do |filename, _|
+    at.files_matching(/^test\/.*_test\.rb$/)
+  end
+ 
+  at.add_mapping(/^lib\/.*\.rb$/) do |filename, _|
+    possible = File.basename(filename, ".rb")
+    at.files_matching %r%^test/.*#{possible}_test.rb$%
+  end
+ 
+  at.add_mapping(/^test.*\/.*_test\.rb$/) do |filename, _|
+    filename
+  end
+end
