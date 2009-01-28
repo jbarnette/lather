@@ -5,6 +5,7 @@ module Lather
     def initialize out
       @out = out
       @globs = []
+      @command = nil
       @verbose = false
 
       @options = OptionParser.new do |o|
@@ -42,15 +43,15 @@ module Lather
       @globs.concat args
       exit help! if @globs.empty?
 
-      watcher = Lather::Watcher.new @globs do |file|
+      watcher = Lather::Watcher.new @globs do |files|
         if @command
-          out.puts "FIXME: #{@command}"
+          @out.puts "FIXME: #{@command}"
         else
-          out.puts "Changed: #{file}"
+          @out.puts "Changed: #{files.join(" ")}"
         end
       end
 
-      verbose "Watching: #{watcher.files.join(" ")}"
+      verbose "Watching: #{watcher.files.keys.sort.join(" ")}"
       watcher.go!
     end
 
