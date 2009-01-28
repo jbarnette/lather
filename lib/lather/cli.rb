@@ -2,14 +2,13 @@ require "optparse"
 
 module Lather
   class Cli
-    def initialize out
-      @out = out
+    def initialize
       @globs = []
       @command = nil
       @verbose = false
 
       @options = OptionParser.new do |o|
-        o.banner = "lather [-hVv] [-r <cmd>] <globs...>"
+        o.banner = "#$0 [-hVv] [-r <cmd>] <globs...>"
         o.separator ""
 
         o.on "--help", "-h", "-?", "Shows help." do
@@ -54,11 +53,11 @@ module Lather
     private
 
     def verbose *args
-      @out.puts args.join(" ") if @verbose
+      puts args.join(" ") if @verbose
     end
 
     def help!
-      @out.puts @options
+      puts @options
       1 # process exit code
     end
   end

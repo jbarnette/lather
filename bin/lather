@@ -4,4 +4,4 @@ require File.expand_path(File.dirname(__FILE__) + "/../lib/lather")
 require "lather/cli"
 
 trap("INT") { puts; exit 1 }
-Lather::Cli.new(STDOUT).go! ARGV
+Lather::Cli.new.go! ARGV
