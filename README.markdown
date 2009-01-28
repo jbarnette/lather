@@ -40,6 +40,7 @@ If you want to mess with the polling interval:
 
 ## Hacking
 
+**The tests aren't working right this second. Check back in a bit.**
 Make sure you have minitest installed. `rake lather` will watch `lib`
 and `test` and re-run the tests when something changes. If you're
 looking for something to work on, think about these:
