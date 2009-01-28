@@ -1,10 +1,13 @@
 require "optparse"
 
+require "lather/watcher"
+require "lather/version"
+
 module Lather
   class Cli
     def initialize
-      @globs = []
       @command = nil
+      @globs = []
       @verbose = false
 
       @options = OptionParser.new do |o|
@@ -32,17 +35,20 @@ module Lather
       end
     end
 
-    def go! args
-      @options.parse!
-
+    def parse! args
+      @options.parse! args
       @globs.concat args
       exit help! if @globs.empty?
+    end
+
+    def go! args
+      parse! args
 
       watcher = Lather::Watcher.new @globs do |files|
         if @command
           system @command
         else
-          @out.puts "Changed: #{files.join(" ")}"
+          puts "Changed: #{files.join(" ")}"
         end
       end
 

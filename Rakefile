@@ -12,7 +12,7 @@ task :lather do
 end
 
 def testify
-  sh "ruby -Ilib:test #{Dir['test/**/*_test.rb'].join(' ')}"
+  puts `ruby -Ilib:test #{Dir['test/**/*_test.rb'].join(' ')}`
 end
 
 task :default => :test

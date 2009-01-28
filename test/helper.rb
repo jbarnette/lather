@@ -1,4 +1,4 @@
 require "rubygems"
-require "minitest/unit"
+require "minitest/autorun"
 
-MiniTest::Unit.autorun
+require "lather"
