@@ -9,7 +9,7 @@ module Lather
       @verbose = false
 
       @options = OptionParser.new do |o|
-        o.banner = "lather [-hVv] [-r <cmd>] <globs...>" # FIXME
+        o.banner = "lather [-hVv] [-r <cmd>] <globs...>"
         o.separator ""
 
         o.on "--help", "-h", "-?", "Shows help." do
@@ -33,10 +33,6 @@ module Lather
       end
     end
 
-    def verbose *args
-      @out.puts args.join(" ") if @verbose
-    end
-
     def go! args
       @options.parse!
 
@@ -53,6 +49,12 @@ module Lather
 
       verbose "Watching: #{watcher.files.keys.sort.join(" ")}"
       watcher.go!
+    end
+
+    private
+
+    def verbose *args
+      @out.puts args.join(" ") if @verbose
     end
 
     def help!

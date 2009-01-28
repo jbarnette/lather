@@ -1,9 +1,18 @@
-require "./tasks/hoe.rb"
-require "./lib/lather/version.rb"
+require "rubygems"
+require "./lib/lather"
 
-Hoe.new("lather", Lather::VERSION) do |p|
-  p.developer "John Barnette", "jbarnette@rubyforge.org"
-  p.test_globs = ["test/**/*_test.rb"]
-  p.testlib = "minitest/unit"
-  p.extra_dev_deps = []
+desc "Run tests."
+task :test do
+  testify
 end
+
+desc "Rinse, repeat."
+task :lather do
+  Lather::Watcher.new("{lib,test}/**/*.rb") { testify }.go!
+end
+
+def testify
+  sh "ruby -Ilib:test #{Dir['test/**/*_test.rb'].join(' ')}"
+end
+
+task :default => :test
