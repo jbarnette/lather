@@ -45,7 +45,7 @@ module Lather
 
       watcher = Lather::Watcher.new @globs do |files|
         if @command
-          @out.puts "FIXME: #{@command}"
+          system @command
         else
           @out.puts "Changed: #{files.join(" ")}"
         end

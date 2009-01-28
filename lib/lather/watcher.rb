@@ -14,8 +14,10 @@ module Lather
     end
 
     def go!
+      @timestamp = Time.now
+
       loop do
-        unless (changed = get_changed_files).empty?
+        unless (changed = update_files).empty?
           @callback[changed]
         end
 
@@ -25,8 +27,17 @@ module Lather
 
     private
 
-    def get_changed_files
-      ["FIXME"]
+    def update_files
+      @files = find_files
+      changed = []
+
+      @files.each do |file, mtime|
+        changed << file if mtime > @timestamp
+      end
+
+      @timestamp = @files.values.max
+
+      changed
     end
 
     def find_files
