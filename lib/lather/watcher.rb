@@ -17,7 +17,7 @@ module Lather
       @timestamp = Time.now
 
       loop do
-        unless (changed = update_files).empty?
+        unless (changed = update_files_and_timestamp).empty?
           @callback[changed]
         end
 
@@ -27,24 +27,19 @@ module Lather
 
     private
 
-    def update_files
-      refreshed = find_files
-      changed   = refreshed.keys - @files.keys # seed new files
-      @files    = refreshed
-
-      @files.each do |file, mtime|
-        changed << file if mtime > @timestamp
-      end
-
+    def update_files_and_timestamp
+      @files = find_files
+      updated = @files.keys.select { |k| @files[k] > @timestamp }
       @timestamp = @files.values.max
 
-      changed
+      updated
     end
 
     def find_files
       files = {}
 
       @globs.flatten.collect { |g| Dir[g] }.flatten.each do |file|
+        # silently skip stat failures: file deleted, etc.
         files[file] = File.stat(file).mtime rescue next
       end
 
