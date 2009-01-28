@@ -28,8 +28,9 @@ module Lather
     private
 
     def update_files
-      @files = find_files
-      changed = []
+      refreshed = find_files
+      changed   = refreshed.keys - @files.keys # seed new files
+      @files    = refreshed
 
       @files.each do |file, mtime|
         changed << file if mtime > @timestamp
