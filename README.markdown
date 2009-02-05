@@ -20,7 +20,6 @@ You can also run a command every time something changes:
 
 ## From Code
 
-    require "rubygems"
     require "lather"
     
     watcher = Lather::Watcher.new "**/*.rb" do |changed|
@@ -44,7 +43,7 @@ If you want to mess with the polling interval:
     end
 
 This will call the `target` task any time the `globs` change. The
-block is optional.
+block is optional. See Lather's `Rakefile` for a working example.
 
 ## Installing
 
@@ -59,7 +58,8 @@ these:
   * A `:force => true` option for `Lather::Watcher` so it'll call the
   change proc with all matched files when it first starts.
   
-  * A way to get at the list of changed files in a `-r` command.
+  * A way to get at the list of changed files in a `-r` command and
+    the Rake task.
 
   * Some default exclude (like backup/editor files, `.svn`, `.git`)
   patterns, and an easy way to add new ones.
@@ -71,7 +71,7 @@ these:
 
 Lather owes a huge debt to Ryan Davis' ZenTest library, specifically
 `autotest`. Use it. It'll change your life. See also Mike Clark and
-Geoff Grossenbach's `rstakeout`.
+Geoffrey Grosenbach's `rstakeout`.
 
 ## License
 
