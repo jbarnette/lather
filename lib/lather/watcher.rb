@@ -9,7 +9,7 @@ module Lather
       @options = { :sleep => 1 }
       @options.merge!(globs.pop) if globs.last.is_a? Hash
 
-      @globs = globs
+      @globs = globs.flatten
       @files = find_files
     end
 
@@ -38,7 +38,7 @@ module Lather
     def find_files
       files = {}
 
-      @globs.flatten.collect { |g| Dir[g] }.flatten.each do |file|
+      @globs.collect { |g| Dir[g] }.flatten.each do |file|
         # silently skip stat failures: file deleted, etc.
         files[file] = File.stat(file).mtime rescue next
       end

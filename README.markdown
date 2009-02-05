@@ -34,16 +34,27 @@ If you want to mess with the polling interval:
     # :sleep is in seconds
     Lather::Watcher.new "*.rb", :sleep => 5
 
+## From a Rakefile
+
+    require "rake/lathertask"
+
+    Rake::LatherTask.new "lib/**/*.rb" do |task|
+      task.target = :test # the default
+      task.globs << "test/**/*_test.rb"
+    end
+
+This will call the `target` task any time the `globs` change. The
+block is optional.
+
 ## Installing
 
     $ [sudo] gem install jbarnette-lather -s http://gems.github.com
 
 ## Hacking
 
-**The tests aren't working right this second. Check back in a bit.**
-Make sure you have minitest installed. `rake lather` will watch `lib`
-and `test` and re-run the tests when something changes. If you're
-looking for something to work on, think about these:
+`rake lather` will watch `lib` and `test` and re-run the tests when
+something changes. If you're looking for something to work on, chew on
+these:
 
   * A `:force => true` option for `Lather::Watcher` so it'll call the
   change proc with all matched files when it first starts.
@@ -53,15 +64,14 @@ looking for something to work on, think about these:
   * Some default exclude (like backup/editor files, `.svn`, `.git`)
   patterns, and an easy way to add new ones.
 
-  * A `--sleep <secs>` switch for the command-line tool.
+  * A `--sleep <secs>` switch for the command-line tool and the Rake
+    task.
 
 ## Thanks
 
-Lather owes a huge debt to [Ryan Davis'][ryan] [ZenTest][zt],
-specifically `autotest`. Use it. It'll change your life.
-
-[ryan]: http://blog.zenspider.com
-[zt]: http://www.zenspider.com/ZSS/Products/ZenTest
+Lather owes a huge debt to Ryan Davis' ZenTest library, specifically
+`autotest`. Use it. It'll change your life. See also Mike Clark and
+Geoff Grossenbach's `rstakeout`.
 
 ## License
 

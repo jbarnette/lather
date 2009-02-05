@@ -1,8 +1,7 @@
-require "helper"
 require "lather/cli"
 
 module Lather
-  class CliTest < MiniTest::Unit::TestCase
+  class CliTest < Test::Unit::TestCase
     def setup
       @cli = Lather::Cli.new
       def @cli.exit *args; throw :exit end
