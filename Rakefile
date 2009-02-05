@@ -1,4 +1,3 @@
-require "rubygems"
 require "rubygems/specification"
 require "rake/testtask"
 
