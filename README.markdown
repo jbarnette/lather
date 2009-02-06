@@ -71,12 +71,12 @@ optional. See Lather's `Rakefile` for a working example.
 
 ## Hacking
 
-`rake lather` will watch `lib` and `test` and re-run the tests when
+`rake test:lather` will watch `lib` and `test` and re-run the tests when
 something changes. If you're looking for something to work on, chew on
 these:
 
   * A way to get at the list of changed files in a `-r` command and
-    the Rake task.
+    the Rake tasks.
 
   * Some default exclude (like backup/editor files, `.svn`, `.git`)
   patterns, and an easy way to add new ones.
