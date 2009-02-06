@@ -63,10 +63,25 @@ module Rake
       yield self if block_given?
 
       desc "Run the tests"
-      task(:test) { testify FileList[@tests] }
+      task :test, [:tests] do |task, args|
+
+        tests = if args.tests.nil? || args.tests.empty?
+                  FileList[@tests]
+                else
+                  args.tests
+                end
+
+        cmd = @flags.dup
+        cmd << "-I#{@libs.join(':')}"
+        cmd << "-e 'ARGV.each { |f| load f }'"
+
+        cmd.concat tests.collect { |f| "'#{f}'" }.sort_by { rand }
+        cmd.concat @extras
+
+        RakeFileUtils.verbose(@verbose) { ruby cmd.join(" ") }
+      end
 
       namespace :test do
-
         desc "Test, rinse, repeat"
         task :lather do
           watcher = Lather::Watcher.new @files, @tests, @options do |changed|
@@ -80,29 +95,24 @@ module Rake
             tests.concat all_tests.
               select { |t| basenames.any? { |b| t =~ /#{b}/ } }
 
+            task = Rake::Task[:test]
+
             begin
-              testify tests.empty? ? all_tests : tests.uniq
+              task.invoke tests.uniq
             rescue StandardError => e
               raise e unless e.to_s =~ /^Command failed/
+            ensure
+
+              # FIXME: walk the whole tree
+
+              task.reenable
+              task.prerequisites.each { |p| Rake::Task[p].reenable }
             end
           end
 
           watcher.go!
         end
       end
-    end
-
-    private
-
-    def testify tests
-      cmd = @flags.dup
-      cmd << "-I#{@libs.join(':')}"
-      cmd << "-e 'ARGV.each { |f| load f }'"
-      
-      cmd.concat tests.collect { |f| "'#{f}'" }.sort_by { rand }
-      cmd.concat @extras
-
-      RakeFileUtils.verbose(@verbose) { ruby cmd.join(" ") }
     end
   end
 end
