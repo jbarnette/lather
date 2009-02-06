@@ -1,12 +1,13 @@
 module Lather
   class Watcher
     attr_reader :files
+    attr_reader :options
 
     def initialize *globs, &callback
       raise ArgumentError, "need a callback" unless block_given?
       @callback = callback
 
-      @options = { :sleep => 1 }
+      @options = { :force => false, :sleep => 1 }
       @options.merge!(globs.pop) if globs.last.is_a? Hash
 
       @globs = globs.flatten
@@ -15,6 +16,8 @@ module Lather
 
     def go!
       @timestamp = Time.now
+
+      @callback[@files.keys] if @options[:force]
 
       loop do
         unless (changed = update_files_and_timestamp).empty?

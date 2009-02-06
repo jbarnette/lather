@@ -15,7 +15,7 @@ module Lather
 
     def test_empty_invocation_prints_help
       out, err = parse!
-      assert_match /Shows help/, out
+      assert_match(/Shows help/, out)
     end
 
     def test_V_option_prints_version

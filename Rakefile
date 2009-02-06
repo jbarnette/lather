@@ -2,7 +2,7 @@ require "rubygems/specification"
 require "rake/testtask"
 
 require "./lib/lather"
-require "./lib/rake/lathertask"
+require "./lib/rake/lathertesttask"
 
 namespace :gem do
   LATHER = Gem::Specification.new do |s|
@@ -38,13 +38,8 @@ namespace :gem do
   end
 end
 
-Rake::TestTask.new do |test|
-  test.libs << "test"
-  test.ruby_opts << "-rhelper"
-  test.test_files = FileList["test/**/*_test.rb"]
-  test.verbose = false
+Rake::LatherTestTask.new do |test|
+  test.flags << "-rhelper"
 end
 
 task :default => :test
-
-Rake::LatherTask.new "{lib,test}/**/*.rb"

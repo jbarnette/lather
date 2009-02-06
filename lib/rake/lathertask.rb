@@ -3,8 +3,19 @@ require "rake/tasklib"
 require "lather/watcher"
 
 module Rake
+
+  # Runs the <tt>target</tt> task any time a file matching one of the
+  # <tt>globs</tt> changes.
+
   class LatherTask < TaskLib
-    attr_accessor :globs, :target
+
+    # An array of globs to watch.
+
+    attr_accessor :globs
+
+    # The task to run when things change. Default is <tt>:test</tt>.
+
+    attr_accessor :target
 
     def initialize *globs, &block
       @target = :test

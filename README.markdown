@@ -38,12 +38,32 @@ If you want to mess with the polling interval:
     require "rake/lathertask"
 
     Rake::LatherTask.new "lib/**/*.rb" do |task|
-      task.target = :test # the default
+      task.target = :test # default
       task.globs << "test/**/*_test.rb"
     end
 
-This will call the `target` task any time the `globs` change. The
-block is optional. See Lather's `Rakefile` for a working example.
+This creates a `lather` task, which will call the `target` task any
+time the `globs` change. The block is optional.
+
+You can also use Lather's replacement for Rake's `TestTask` for even
+nicer integration:
+
+    require "rake/lathertesttask"
+
+    Rake::LatherTestTask.new do |test|
+
+      # These are the defaults, you don't need to specify 'em.
+
+      test.files   = %w(lib/**/*.rb)
+      test.flags   = %w(-w)
+      test.libs    = %w(lib test)
+      test.options = { :force => true }
+      test.tests   = %w(test/**/*_test.rb)
+      test.verbose = false
+    end
+
+This creates `test` and `test:lather` tasks. The block is
+optional. See Lather's `Rakefile` for a working example.
 
 ## Installing
 
@@ -55,9 +75,6 @@ block is optional. See Lather's `Rakefile` for a working example.
 something changes. If you're looking for something to work on, chew on
 these:
 
-  * A `:force => true` option for `Lather::Watcher` so it'll call the
-  change proc with all matched files when it first starts.
-  
   * A way to get at the list of changed files in a `-r` command and
     the Rake task.
 
