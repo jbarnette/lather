@@ -83,7 +83,7 @@ module Rake
       @globs << test_task.file_list
       @options[:force] = true
 
-      @changed = lambda do |changed|
+      lambda do |changed|
         tests = all_tests & changed
 
         basenames = (changed - tests).collect do |f|
