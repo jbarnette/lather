@@ -20,7 +20,7 @@ module Rake
 
     # The task to run when things change. Default is
     # <tt>:test</tt>. If this is an instance of
-    # <tt>Rake::TestTask</tt>, the task's <tt>pattern</tt> will be
+    # <tt>Rake::TestTask</tt>, the task's <tt>file_list</tt> will be
     # added to <tt>globs</tt>, and the <tt>TEST</tt> environment
     # variable will be set to a glob of changed tests before each
     # invocation.
