@@ -2,16 +2,16 @@
 
 Gem::Specification.new do |s|
   s.name = %q{lather}
-  s.version = "1.2.1"
+  s.version = "1.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John Barnette"]
-  s.date = %q{2009-02-06}
+  s.date = %q{2009-02-08}
   s.default_executable = %q{lather}
   s.description = %q{Lather rinses and repeats.}
   s.email = %q{jbarnette@gmail.com}
   s.executables = ["lather"]
-  s.files = ["Rakefile", "README.markdown", "bin/lather", "lib/lather", "lib/lather/cli.rb", "lib/lather/version.rb", "lib/lather/watcher.rb", "lib/lather.rb", "lib/rake", "lib/rake/lathertask.rb", "lib/rake/lathertesttask.rb", "test/helper.rb", "test/lather", "test/lather/cli_test.rb", "test/lather/watcher_test.rb"]
+  s.files = ["Rakefile", "README.markdown", "bin/lather", "lib/lather", "lib/lather/cli.rb", "lib/lather/version.rb", "lib/lather/watcher.rb", "lib/lather.rb", "lib/rake", "lib/rake/lathertask.rb", "test/helper.rb", "test/lather", "test/lather/cli_test.rb", "test/lather/watcher_test.rb"]
   s.homepage = %q{http://github.com/jbarnette/lather}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.1}

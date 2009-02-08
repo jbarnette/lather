@@ -37,33 +37,34 @@ If you want to mess with the polling interval:
 
     require "rake/lathertask"
 
-    Rake::LatherTask.new "lib/**/*.rb" do |task|
-      task.target = :test # default
-      task.globs << "test/**/*_test.rb"
+    Rake::LatherTask.new "lib/**/*.rb" do |l|
+      l.target = :something
+      l.globs << "ext/**/*.{c,h}"
     end
 
 This creates a `lather` task, which will call the `target` task any
-time the `globs` change. The block is optional.
+time the `globs` change. The block is optional: `target` defaults to
+`:test`.
 
-You can also use Lather's replacement for Rake's `TestTask` for even
-nicer integration:
+If `target` is set to an **instance** of `Rake::TestTask`, some
+special behavior is enabled: Lather will add the test task's file list
+to `globs`, and will set the `TEST` environment variable to the list
+of tests that need to be run.
 
-    require "rake/lathertesttask"
+    require "rake/testtask"
+    require "rake/lathertask"
 
-    Rake::LatherTestTask.new do |test|
-
-      # These are the defaults, you don't need to specify 'em.
-
-      test.files   = %w(lib/**/*.rb)
-      test.flags   = %w(-w)
-      test.libs    = %w(lib test)
-      test.options = { :force => true }
-      test.tests   = %w(test/**/*_test.rb)
-      test.verbose = false
+    test = Rake::TestTask.new do |t|
+      t.libs << "test"
+      t.test_files = "test/**/*_test.rb"
     end
 
-This creates `test` and `test:lather` tasks. The block is
-optional. See Lather's `Rakefile` for a working example.
+    Rake::LatherTask.new "lib/**/*.rb", :target => test
+
+The heuristic is really simple: If `lib/foo.rb` changes, any test
+whose path contains `foo` will be run. There's no tracking of failures
+or single test runs. If you want more than this, you should be using
+Autotest.
 
 ## Installing
 
@@ -71,28 +72,24 @@ optional. See Lather's `Rakefile` for a working example.
 
 ## Hacking
 
-`rake test:lather` will watch `lib` and `test` and re-run the tests when
-something changes. If you're looking for something to work on, chew on
-these:
+If you're looking for something to work on, chew on these:
 
-  * A way to get at the list of changed files in a `-r` command and
-    the Rake tasks.
+  * A way to get at the list of changed files in a `-r` command.
 
   * Some default exclude (like backup/editor files, `.svn`, `.git`)
   patterns, and an easy way to add new ones.
 
-  * A `--sleep <secs>` switch for the command-line tool and the Rake
-    task.
+  * A `--sleep <secs>` switch for the command-line tool.
 
 ## Thanks
 
 Lather owes a huge debt to Ryan Davis' ZenTest library, specifically
-`autotest`. Use it. It'll change your life. See also Mike Clark and
-Geoffrey Grosenbach's `rstakeout`.
+`autotest`. Use it. See also Mike Clark and Geoffrey Grosenbach's
+`rstakeout`.
 
 ## License
 
-Copyright 2009 John Barnette [jbarnette@gmail.com]
+Copyright 2009 John Barnette, Seattle.rb.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

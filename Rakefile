@@ -2,7 +2,12 @@ require "rubygems/specification"
 require "rake/testtask"
 
 require "./lib/lather"
-require "./lib/rake/lathertesttask"
+require "./lib/rake/lathertask"
+
+desc "Straighten up"
+task :clean do
+  rm_rf "*.gem"
+end
 
 namespace :gem do
   LATHER = Gem::Specification.new do |s|
@@ -33,13 +38,16 @@ namespace :gem do
   end
 
   desc "Build and install the gem"
-  task :install => gemfile do
+  task :install => [gemfile, :clean] do
     sh "sudo gem install #{LATHER.name}-#{LATHER.version}.gem"
   end
 end
 
-Rake::LatherTestTask.new do |test|
-  test.flags << "-rhelper"
+test = Rake::TestTask.new do |t|
+  t.libs      << "test"
+  t.ruby_opts << "-rhelper"
+  t.test_files = "test/**/*_test.rb"
 end
 
 task :default => :test
+Rake::LatherTask.new "lib/**/*.rb", :target => test
