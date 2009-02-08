@@ -56,7 +56,7 @@ of tests that need to be run.
 
     test = Rake::TestTask.new do |t|
       t.libs << "test"
-      t.test_files = "test/**/*_test.rb"
+      t.pattern = "test/**/*_test.rb"
     end
 
     Rake::LatherTask.new "lib/**/*.rb", :target => test
