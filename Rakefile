@@ -46,7 +46,7 @@ end
 test = Rake::TestTask.new do |t|
   t.libs      << "test"
   t.ruby_opts << "-rhelper"
-  t.test_files = "test/**/*_test.rb"
+  t.pattern    = "test/**/*_test.rb"
 end
 
 task :default => :test
