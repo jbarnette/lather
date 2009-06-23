@@ -1,7 +1,8 @@
+require "minitest/autorun"
 require "lather/cli"
 
 module Lather
-  class CliTest < Test::Unit::TestCase
+  class CliTest < MiniTest::Unit::TestCase
     def setup
       @cli = Lather::Cli.new
       def @cli.exit *args; throw :exit end

@@ -1,0 +1,11 @@
+CHANGELOG.rdoc
+Manifest.txt
+README.rdoc
+Rakefile
+bin/lather
+lib/lather.rb
+lib/lather/cli.rb
+lib/lather/watcher.rb
+lib/rake/lathertask.rb
+test/test_cli.rb
+test/test_watcher.rb

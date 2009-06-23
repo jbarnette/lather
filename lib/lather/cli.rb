@@ -1,7 +1,6 @@
 require "optparse"
 
-require "lather/watcher"
-require "lather/version"
+require "lather"
 
 module Lather
   class Cli

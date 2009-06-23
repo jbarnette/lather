@@ -1,0 +1,5 @@
+=== 1.4.0 / 2009-06-22
+
+* Release as a Gem.
+* Switch to MiniTest.
+* Switch to new Hoe.

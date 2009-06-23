@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby -w
 
-require File.expand_path(File.dirname(__FILE__) + "/../lib/lather")
 require "lather/cli"
 
 trap("INT") { puts; exit 1 }

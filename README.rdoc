@@ -1,31 +1,38 @@
-# Lather
+= Lather
+
+* http://github.com/jbarnette/lather
+
+== Description
 
 Lather is an easy way to watch files and do something when they
 change. By default, it checks for changes every second.
 
-## From the Command Line
+== Examples
 
-The `lather` command-line tool lets you quickly track changes to a set
-of files.
+=== From the Command Line
+
+The <tt>lather</tt> command-line tool lets you quickly track changes
+to a set of files.
 
     $ lather 'test/**/*_test.rb'
 
-By default, `lather` will print a message each time a file matching
-your spec changes. `**` is supported for recursive globbing, but make
-sure to escape/quote the glob so your shell doesn't expand it.
+By default, <tt>lather</tt> will print a message each time a file
+matching your spec changes. <tt>**</tt> is supported for recursive
+globbing, but make sure to escape/quote the glob so your shell doesn't
+expand it.
 
 You can also run a command every time something changes:
 
     $ lather -r 'rake test' '{lib,test}/**/*.rb'
 
-## From Code
+=== From Code
 
     require "lather"
-    
+
     watcher = Lather::Watcher.new "**/*.rb" do |changed|
       puts "Files changed: #{changed.join(' ')}"
     end
-    
+
     watcher.go!
 
 If you want to mess with the polling interval:
@@ -33,7 +40,7 @@ If you want to mess with the polling interval:
     # :sleep is in seconds
     Lather::Watcher.new "*.rb", :sleep => 5
 
-## From a Rakefile
+=== From a Rakefile
 
     require "rake/lathertask"
 
@@ -42,14 +49,14 @@ If you want to mess with the polling interval:
       l.globs << "ext/**/*.{c,h}"
     end
 
-This creates a `lather` task, which will call the `target` task any
-time the `globs` change. The block is optional: `target` defaults to
-`:test`.
+This creates a <tt>lather</tt> task, which will call the
+<tt>target</tt> task any time the <tt>globs</tt> change. The block is
+optional: <tt>target</tt> defaults to <tt>:test</tt>.
 
-If `target` is set to an **instance** of `Rake::TestTask`, some
-special behavior is enabled: Lather will add the test task's file list
-to `globs`, and will set the `TEST` environment variable to the list
-of tests that need to be run.
+If <tt>target</tt> is set to an *instance* of <tt>Rake::TestTask</tt>,
+some special behavior is enabled: Lather will add the test task's file
+list to <tt>globs</tt>, and will set the <tt>TEST</tt> environment
+variable to the list of tests that need to be run.
 
     require "rake/testtask"
     require "rake/lathertask"
@@ -61,35 +68,34 @@ of tests that need to be run.
 
     Rake::LatherTask.new "lib/**/*.rb", :target => test
 
-The heuristic is really simple: If `lib/foo.rb` changes, any test
-whose path contains `foo` will be run. There's no tracking of failures
-or single test runs. If you want more than this, you should be using
-Autotest.
+The heuristic is really simple: If <tt>lib/foo.rb</tt> changes, any
+test whose path contains `foo` will be run. There's no tracking of
+failures or single test runs. If you want more than this, you should
+be using Autotest.
 
-## Installing
+== Installation
 
-    $ [sudo] gem install jbarnette-lather -s http://gems.github.com
+    $ gem install lather
 
-## Hacking
+== TODO
 
-If you're looking for something to work on, chew on these:
+* A way to get at the list of changed files in a <tt>-r</tt> command.
 
-  * A way to get at the list of changed files in a `-r` command.
+* Some default exclude (like backup/editor files, <tt>.svn</tt>,
+  <tt>.git</tt>) patterns, and an easy way to add new ones.
 
-  * Some default exclude (like backup/editor files, `.svn`, `.git`)
-  patterns, and an easy way to add new ones.
+* A <tt>--sleep <secs></tt> switch for the command-line tool.
 
-  * A `--sleep <secs>` switch for the command-line tool.
-
-## Thanks
+== Thanks
 
 Lather owes a huge debt to Ryan Davis' ZenTest library, specifically
-`autotest`. Use it. See also Mike Clark and Geoffrey Grosenbach's
-`rstakeout`.
+<tt>autotest</tt>. Use it. See also Mike Clark and Geoffrey
+Grosenbach's <tt>rstakeout</tt>, and a bunch of similar I've
+forgotten.
 
-## License
+== License
 
-Copyright 2009 John Barnette, Seattle.rb.
+Copyright 2009 John Barnette (jbarnette@rubyforge.org)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
